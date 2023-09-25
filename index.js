@@ -18,7 +18,7 @@ const port = process.env.PORT || 80;
 let result = require("./db/file.json");
 
 // Create folder
-//if (!fs.existsSync('./public/file')) fs.mkdirSync('./public/file')
+if (!fs.existsSync(path.join(process.cwd(), "public/file")) fs.mkdirSync(path.join(process.cwd(), "public/file"))
 
 function makeid(length) {
     let result = '';
