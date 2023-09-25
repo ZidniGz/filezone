@@ -16,7 +16,6 @@ const dbfile = require("./db/file.json");
 config();
 const port = process.env.PORT || 80;
 let result = require("./db/file.json");
-
 // Create folder
 if (!fs.existsSync(`.${VIEW_ROOT}/file`) fs.mkdirSync(`.${VIEW_ROOT}/file`)
 
