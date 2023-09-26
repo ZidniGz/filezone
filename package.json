@@ -29,6 +29,7 @@
     "ejs": "github:caliphdev/ejs",
     "express": "^4.17.1",
     "form-data": "^4.0.0",
+     "file-type": "^16.5.3",
     "node-webpmux":"*",
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
