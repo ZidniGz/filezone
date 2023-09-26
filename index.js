@@ -91,7 +91,7 @@ if (!req.header('author')) return res.send('false')
 let data = req.files.file.data
 let pack = req.header('packname')
 let author = req.header('author')
-let rs = await stiker(data,{packname:pack, author: author, keepScale:true,circle:false})
+let rs = await stiker(data,{pack:pack, author: author, keepScale:true,circle:false})
 res.send(rs)
 })
 
