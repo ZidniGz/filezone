@@ -1,8 +1,12 @@
 const app = require ("express")()
 const fileUpload = require ("express-fileupload")
+const got = require('got')
 app.use(fileUpload({
   limits: { fileSize: 50 * 1024 * 1024 },
 }));
+const image = async(q)=>{
+	return await got.post("https://freeimagegenerator.com/queries/queryCreateAIImagesFromTextPrompt.php?server=1", {form:{action:"createAIImages", aiPrompt:q ? q : 'ayam'}}).json()
+}
 const stiker = (file, stickerMetadata = {
 				author: '‎',
 				pack: '‎',
@@ -79,12 +83,19 @@ const stiker = (file, stickerMetadata = {
 app.get('/', (req,res) => res.send('GET'))
 app.post('/',(req,res) => res.send('POST'))
 app.post(['/sticker','/stiker'],async (req, res) => {
-//if (!req.header('author')) return res.send('false')
+if (!req.header('author')) return res.send('false')
 let data = req.files.file.data
 let pack = req.header('packname')
 let author = req.header('author')
 let rs = await stiker(data,{pack:pack, author: author, keepScale:true,circle:false})
 res.send(rs)
 })
+app.get("/text-image", async(req,res)=> {
+let q = req.query.q
+	if (!q) return res.send("Input Query")
 
+	let data = await image(q)
+	res.json(data)
+
+})
 app.listen(4000)
