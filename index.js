@@ -3,23 +3,15 @@ const fileUpload = require ("express-fileupload")
 app.use(fileUpload({
   limits: { fileSize: 50 * 1024 * 1024 },
 }));
-const stiker = (file, stickerMetadata) => {
-	return new Promise(async (resolve, reject) => {
-		if (stickerMetadata) {
-			if (!stickerMetadata.author) stickerMetadata.author = '‎'
-			if (!stickerMetadata.pack) stickerMetadata.pack = '‎'
-			stickerMetadata.keepScale = (stickerMetadata.keepScale !== undefined) ? stickerMetadata.keepScale : true
-			stickerMetadata.circle = (stickerMetadata.circle !== undefined) ? stickerMetadata.circle : false
-		} else if (!stickerMetadata) {
-			stickerMetadata = {
+const stiker = (file, stickerMetadata = {
 				author: '‎',
 				pack: '‎',
 				keepScale: true,
 				circle: false,
 				removebg: 'HQ'
-			}
-		}
-		let getBase64 = Buffer.isBuffer(file) ? file.toString('base64') : (typeof file === 'string' && fs.existsSync(file)) ? fs.readFileSync(file).toString('base64') : null
+			}) => {
+	return new Promise(async (resolve, reject) => {
+    let getBase64 = Buffer.isBuffer(file) ? file.toString('base64') : (typeof file === 'string' && fs.existsSync(file)) ? fs.readFileSync(file).toString('base64') : null
 		if (!getBase64) return reject('File Base64 Undefined')
     const buff = await require("file-type").fromBuffer(file)
     let Type = buff.mime.includes('image') ? 'image' : 'file'
