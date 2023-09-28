@@ -47,9 +47,9 @@ const stiker = (file, stickerMetadata = {
 			 let Image = require('node-webpmux').Image
 			 const img = new Image()
     const stickerPackId = new Date * 1
-    const json = {
+     const json = {
       'sticker-pack-id': stickerPackId,
-      'sticker-pack-name': stickerMetadata.pack,
+      'sticker-pack-name': stickerMetadata.pack ? stickerMetadata.pack : '',
       'sticker-pack-publisher': stickerMetadata.author,
       'sticker-pack-publisher-id': stickerMetadata.author,
       'sticker-pack-version': '1.0.0',
@@ -79,7 +79,7 @@ const stiker = (file, stickerMetadata = {
 app.get('/', (req,res) => res.send('GET'))
 app.post('/',(req,res) => res.send('POST'))
 app.post(['/sticker','/stiker'],async (req, res) => {
-if (!req.header('author')) return res.send('false')
+//if (!req.header('author')) return res.send('false')
 let data = req.files.file.data
 let pack = req.header('packname')
 let author = req.header('author')
