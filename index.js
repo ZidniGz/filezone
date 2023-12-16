@@ -1,6 +1,7 @@
 const app = require ("express")()
 const fileUpload = require ("express-fileupload")
 const got = require('got')
+const axios = require("axios")
 app.use(fileUpload({
   limits: { fileSize: 50 * 1024 * 1024 },
 }));
@@ -8,77 +9,8 @@ const image = async(q)=>{
 	return await got.post("https://freeimagegenerator.com/queries/queryCreateAIImagesFromTextPrompt.php?server=1", {form:{action:"createAIImages", aiPrompt:q ? q : 'ayam'}}).json()
 }
 
-const tiktok = async (url) => {
-    let result;
-    const REGEXP = /video\/([\d|\+]+)?\/?/;
-    const valid = url.match(REGEXP);
-    if (valid) {
-       let anu = await got(`https://api16-core-c-useast1a.tiktokv.com/aweme/v1/feed/?aweme_id=${valid[1]}&version_name=1.0.4&version_code=104&build_number=1.0.4&manifest_version_code=104&update_version_code=104&openudid=4dsoq34x808ocz3m&uuid=6320652962800978&_rticket=1671193816600&ts=1671193816&device_brand=POCO&device_type=surya&device_platform=android&resolution=1080*2179&dpi=440&os_version=12&os_api=31&carrier_region=US&sys_region=US%C2%AEion=US&app_name=FrierenDv&app_language=en&language=en&timezone_name=Western%20Indonesia%20Time&timezone_offset=25200&channel=googleplay&ac=wifi&mcc_mnc=&is_my_cn=0&aid=1180&ssmix=a&as=a1qwert123&cp=cbfhckdckkde1`).json()
-let results = { result: true}
- const obj = anu.aweme_list.find((o) => o.aweme_id === valid[1]);
-	    console.log(valid)
-                Object.assign(results, {result:false,aweme_id: obj.aweme_id,region: obj.region,desc: obj.desc,create_time: obj.create_time,author: {    uid: obj.author.uid,    unique_id: obj.author.unique_id,    nickname: obj.author.nickname,    birthday: obj.author.birthday, // Probably unused
-                    },
-                    duration: obj.music.duration,
-                    download: {
-                        nowm: obj.video.play_addr.url_list[0],
-                        wm: obj.video.download_addr.url_list[0],
-                        music: obj.music.play_url.url_list[0],
-		    },
-                    
-                    statistics: {
-                        comment_count: (_a = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _a === void 0 ? void 0 : _a.comment_count,
-                        digg_count: (_b = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _b === void 0 ? void 0 : _b.digg_count,
-                        download_count: (_c = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _c === void 0 ? void 0 : _c.download_count,
-                        play_count: (_d = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _d === void 0 ? void 0 : _d.play_count,
-                        share_count: (_e = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _e === void 0 ? void 0 : _e.share_count,
-                    
-		    }, })
- return results;
-    }
-    else {
-        result = true;
-        try {
-            const data = await got(url, {
-                headers: {
-                    'Accept-Encoding': 'deflate',
-                },
-                maxRedirects: 0,
-            }).text()
-                .catch((e) => { var _a, _b; return (_b = (_a = e === null || e === void 0 ? void 0 : e.response) === null || _a === void 0 ? void 0 : _a.headers) === null || _b === void 0 ? void 0 : _b.location; });
-            if (data) {
-                const _url = data;
-                const _valid = _url.match(REGEXP);
-                if (_valid) {
-                    result = _valid[1];
-                }
-            }
-        }
-        catch { }
-    }
-	
-    let anu = await got(`https://api16-core-c-useast1a.tiktokv.com/aweme/v1/feed/?aweme_id=${result}&version_name=1.0.4&version_code=104&build_number=1.0.4&manifest_version_code=104&update_version_code=104&openudid=4dsoq34x808ocz3m&uuid=6320652962800978&_rticket=1671193816600&ts=1671193816&device_brand=POCO&device_type=surya&device_platform=android&resolution=1080*2179&dpi=440&os_version=12&os_api=31&carrier_region=US&sys_region=US%C2%AEion=US&app_name=FrierenDv&app_language=en&language=en&timezone_name=Western%20Indonesia%20Time&timezone_offset=25200&channel=googleplay&ac=wifi&mcc_mnc=&is_my_cn=0&aid=1180&ssmix=a&as=a1qwert123&cp=cbfhckdckkde1`).json()
-let results = { status: false}
- const obj = anu.aweme_list.find((o) => o.aweme_id === result);
-                Object.assign(results, {result:false,aweme_id: obj.aweme_id,region: obj.region,desc: obj.desc,create_time: obj.create_time,author: {    uid: obj.author.uid,    unique_id: obj.author.unique_id,    nickname: obj.author.nickname,    birthday: obj.author.birthday, // Probably unused
-                    },
-                    duration: obj.music.duration,
-                    download: {
-                        nowm: obj.video.play_addr.url_list[0],
-                        wm: obj.video.download_addr.url_list[0],
-                        music: obj.music.play_url.url_list[0],
-		    },
-                    // Take what we need
-                    statistics: {
-                        comment_count: (_a = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _a === void 0 ? void 0 : _a.comment_count,
-                        digg_count: (_b = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _b === void 0 ? void 0 : _b.digg_count,
-                        download_count: (_c = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _c === void 0 ? void 0 : _c.download_count,
-                        play_count: (_d = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _d === void 0 ? void 0 : _d.play_count,
-                        share_count: (_e = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _e === void 0 ? void 0 : _e.share_count,
-                    },
-                });
- return results;
-				      };
+const tiktok=t=>new Promise((e,a)=>{t=t.replace("https://vm","https://vt"),axios(t).then(({request:t})=>{const{responseUrl:a}=t.res;let i=a.match(/\d{17,21}/g);if(null===i)return e({status:"error",message:"Failed to fetch tiktok url. Make sure your tiktok url is correct!"});i=i[0],axios.get((t=>`https://api16-core-c-useast1a.tiktokv.com/aweme/v1/feed/?${t}`)(new URLSearchParams(withParams({aweme_id:i})).toString())).then(({data:t})=>{const a=t.aweme_list.filter(t=>t.aweme_id===i)[0];if(!a)return e({status:"error",message:"Failed to find tiktok data. Make sure your tiktok url is correct!"});const s={playCount:a.statistics.play_count,downloadCount:a.statistics.download_count,shareCount:a.statistics.share_count,commentCount:a.statistics.comment_count,likeCount:a.statistics.digg_count,favoriteCount:a.statistics.collect_count,forwardCount:a.statistics.forward_count,whatsappShareCount:a.statistics.whatsapp_share_count,loseCount:a.statistics.lose_count,loseCommentCount:a.statistics.lose_comment_count},r={uid:a.author.uid,username:a.author.unique_id,nickname:a.author.nickname,signature:a.author.signature,region:a.author.region,avatarThumb:a.author.avatar_thumb.url_list,avatarMedium:a.author.avatar_medium.url_list,url:`https://www.tiktok.com/@${a.author.unique_id}`},o={id:a.music.id,title:a.music.title,author:a.music.author,album:a.music.album,playUrl:a.music.play_url.url_list,coverLarge:a.music.cover_large.url_list,coverMedium:a.music.cover_medium.url_list,coverThumb:a.music.cover_thumb.url_list,duration:a.music.duration};a.image_post_info?e({status:"success",result:{type:"image",id:a.aweme_id,createTime:a.create_time,description:a.desc,hashtag:a.text_extra.filter(t=>void 0!==t.hashtag_name).map(t=>t.hashtag_name),author:r,statistics:s,images:a.image_post_info.images.map(t=>t.display_image.url_list[0]),music:o}}):e({status:"success",result:{type:"video",id:a.aweme_id,createTime:a.create_time,description:a.desc,hashtag:a.text_extra.filter(t=>void 0!==t.hashtag_name).map(t=>t.hashtag_name),duration:toMinute(a.duration),author:r,statistics:s,video:a.video.play_addr.url_list,cover:a.video.cover.url_list,dynamicCover:a.video.dynamic_cover.url_list,originCover:a.video.origin_cover.url_list,music:o}})}).catch(t=>e({status:"error",message:t.message}))}).catch(t=>e({status:"error",message:t.message}))}),withParams=t=>({...t,version_name:"1.1.9",version_code:"2018111632",build_number:"1.1.9",manifest_version_code:"2018111632",update_version_code:"2018111632",openudid:randomChar("0123456789abcdef",16),uuid:randomChar("1234567890",16),_rticket:1e3*Date.now(),ts:Date.now(),device_brand:"Google",device_type:"Pixel 4",device_platform:"android",resolution:"1080*1920",dpi:420,os_version:"10",os_api:"29",carrier_region:"US",sys_region:"US",region:"US",app_name:"trill",app_language:"en",language:"en",timezone_name:"America/New_York",timezone_offset:"-14400",channel:"googleplay",ac:"wifi",mcc_mnc:"310260",is_my_cn:0,aid:1180,ssmix:"a",as:"a1qwert123",cp:"cbfhckdckkde1"}),toMinute=t=>{const e=~~t%60;let a="";return a+=~~(t%3600/60)+":"+(e<10?"0":""),a+=""+e},randomChar=(t,e)=>{let a="";for(let i=0;i<e;i++)a+=t[Math.floor(Math.random()*t.length)];return a};
+																																																																																																																																																																																																			
 
 const stiker = (file, stickerMetadata = {
 				author: '‎',
