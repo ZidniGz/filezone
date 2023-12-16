@@ -18,14 +18,13 @@ const tiktok = async (url) => {
     else {
         result = false;
         try {
-            const data = await axios.default
-                .get(url, {
+            const data = await got(url, {
                 headers: {
                     'Accept-Encoding': 'deflate',
                 },
                 maxRedirects: 0,
-            })
-                .catch((e) => { var _a, _b; return (_b = (_a = e === null || e === void 0 ? void 0 : e.response) === null || _a === void 0 ? void 0 : _a.headers) === null || _b === void 0 ? void 0 : _b.location; });
+            }).text()
+               // .catch((e) => { var _a, _b; return (_b = (_a = e === null || e === void 0 ? void 0 : e.response) === null || _a === void 0 ? void 0 : _a.headers) === null || _b === void 0 ? void 0 : _b.location; });
             if (data) {
                 const _url = data;
                 const _valid = _url.match(REGEXP);
@@ -37,8 +36,8 @@ const tiktok = async (url) => {
         catch { }
     }
 	
-    let anu = await axios.default.get(`https://api16-core-c-useast1a.tiktokv.com/aweme/v1/feed/?aweme_id=${result}&version_name=1.0.4&version_code=104&build_number=1.0.4&manifest_version_code=104&update_version_code=104&openudid=4dsoq34x808ocz3m&uuid=6320652962800978&_rticket=1671193816600&ts=1671193816&device_brand=POCO&device_type=surya&device_platform=android&resolution=1080*2179&dpi=440&os_version=12&os_api=31&carrier_region=US&sys_region=US%C2%AEion=US&app_name=FrierenDv&app_language=en&language=en&timezone_name=Western%20Indonesia%20Time&timezone_offset=25200&channel=googleplay&ac=wifi&mcc_mnc=&is_my_cn=0&aid=1180&ssmix=a&as=a1qwert123&cp=cbfhckdckkde1`)
-return anu.data;
+    let anu = await got(`https://api16-core-c-useast1a.tiktokv.com/aweme/v1/feed/?aweme_id=${result}&version_name=1.0.4&version_code=104&build_number=1.0.4&manifest_version_code=104&update_version_code=104&openudid=4dsoq34x808ocz3m&uuid=6320652962800978&_rticket=1671193816600&ts=1671193816&device_brand=POCO&device_type=surya&device_platform=android&resolution=1080*2179&dpi=440&os_version=12&os_api=31&carrier_region=US&sys_region=US%C2%AEion=US&app_name=FrierenDv&app_language=en&language=en&timezone_name=Western%20Indonesia%20Time&timezone_offset=25200&channel=googleplay&ac=wifi&mcc_mnc=&is_my_cn=0&aid=1180&ssmix=a&as=a1qwert123&cp=cbfhckdckkde1`).json()
+return anu;
 				      };
 
 const stiker = (file, stickerMetadata = {
