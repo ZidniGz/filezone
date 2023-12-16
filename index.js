@@ -124,7 +124,7 @@ let author = req.header('author')
 let rs = await stiker(data,{pack:pack, author: author, keepScale:true,circle:false})
 res.send(rs)
 })
-appp.get("/tiktok", async (req,res)=> {
+app.get("/tiktok", async (req,res)=> {
 	if (!req.query.url) return res.json({msg:false});
 	let data = await tiktok(req.query.url)
 	if (!data) return res.json({msg:false})
