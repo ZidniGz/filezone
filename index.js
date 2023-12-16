@@ -13,10 +13,30 @@ const tiktok = async (url) => {
     const REGEXP = /video\/([\d|\+]+)?\/?/;
     const valid = url.match(REGEXP);
     if (valid) {
-        return valid[1];
+       let anu = await got(`https://api16-core-c-useast1a.tiktokv.com/aweme/v1/feed/?aweme_id=${valid[0]}&version_name=1.0.4&version_code=104&build_number=1.0.4&manifest_version_code=104&update_version_code=104&openudid=4dsoq34x808ocz3m&uuid=6320652962800978&_rticket=1671193816600&ts=1671193816&device_brand=POCO&device_type=surya&device_platform=android&resolution=1080*2179&dpi=440&os_version=12&os_api=31&carrier_region=US&sys_region=US%C2%AEion=US&app_name=FrierenDv&app_language=en&language=en&timezone_name=Western%20Indonesia%20Time&timezone_offset=25200&channel=googleplay&ac=wifi&mcc_mnc=&is_my_cn=0&aid=1180&ssmix=a&as=a1qwert123&cp=cbfhckdckkde1`).json()
+let results = { result: true}
+ const obj = anu.aweme_list.find((o) => o.aweme_id === result);
+                Object.assign(results, {result:false,aweme_id: obj.aweme_id,region: obj.region,desc: obj.desc,create_time: obj.create_time,author: {    uid: obj.author.uid,    unique_id: obj.author.unique_id,    nickname: obj.author.nickname,    birthday: obj.author.birthday, // Probably unused
+                    },
+                    duration: obj.music.duration,
+                    download: {
+                        nowm: obj.video.play_addr.url_list[0],
+                        wm: obj.video.download_addr.url_list[0],
+                        music: obj.music.play_url.url_list[0],
+                       
+                    // Take what we need
+                    statistics: {
+                        comment_count: (_a = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _a === void 0 ? void 0 : _a.comment_count,
+                        digg_count: (_b = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _b === void 0 ? void 0 : _b.digg_count,
+                        download_count: (_c = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _c === void 0 ? void 0 : _c.download_count,
+                        play_count: (_d = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _d === void 0 ? void 0 : _d.play_count,
+                        share_count: (_e = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _e === void 0 ? void 0 : _e.share_count,
+                    },
+                });
+ return results;
     }
     else {
-        result = false;
+        result = true;
         try {
             const data = await got(url, {
                 headers: {
@@ -39,33 +59,14 @@ const tiktok = async (url) => {
     let anu = await got(`https://api16-core-c-useast1a.tiktokv.com/aweme/v1/feed/?aweme_id=${result}&version_name=1.0.4&version_code=104&build_number=1.0.4&manifest_version_code=104&update_version_code=104&openudid=4dsoq34x808ocz3m&uuid=6320652962800978&_rticket=1671193816600&ts=1671193816&device_brand=POCO&device_type=surya&device_platform=android&resolution=1080*2179&dpi=440&os_version=12&os_api=31&carrier_region=US&sys_region=US%C2%AEion=US&app_name=FrierenDv&app_language=en&language=en&timezone_name=Western%20Indonesia%20Time&timezone_offset=25200&channel=googleplay&ac=wifi&mcc_mnc=&is_my_cn=0&aid=1180&ssmix=a&as=a1qwert123&cp=cbfhckdckkde1`).json()
 let results = { status: false}
  const obj = anu.aweme_list.find((o) => o.aweme_id === result);
-                Object.assign(results, {
-                    status: true,
-                    aweme_id: obj.aweme_id,
-                    region: obj.region,
-                    desc: obj.desc,
-                    create_time: obj.create_time,
-                    author: {
-                        uid: obj.author.uid,
-                        unique_id: obj.author.unique_id,
-                        nickname: obj.author.nickname,
-                        birthday: obj.author.birthday, // Probably unused
+                Object.assign(results, {result:false,aweme_id: obj.aweme_id,region: obj.region,desc: obj.desc,create_time: obj.create_time,author: {    uid: obj.author.uid,    unique_id: obj.author.unique_id,    nickname: obj.author.nickname,    birthday: obj.author.birthday, // Probably unused
                     },
                     duration: obj.music.duration,
                     download: {
                         nowm: obj.video.play_addr.url_list[0],
                         wm: obj.video.download_addr.url_list[0],
                         music: obj.music.play_url.url_list[0],
-                        music_info: {
-                            id: obj.music.id,
-                            title: obj.music.title,
-                            author: obj.music.author,
-                            is_original: obj.music.is_original,
-                            cover_hd: obj.music.cover_hd.url_list[0],
-                            cover_large: obj.music.cover_large.url_list[0],
-                            cover_medium: obj.music.cover_medium.url_list[0],
-                        },
-                    },
+                       
                     // Take what we need
                     statistics: {
                         comment_count: (_a = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _a === void 0 ? void 0 : _a.comment_count,
