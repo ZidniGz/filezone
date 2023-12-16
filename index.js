@@ -24,7 +24,7 @@ const tiktok = async (url) => {
                 },
                 maxRedirects: 0,
             }).text()
-               // .catch((e) => { var _a, _b; return (_b = (_a = e === null || e === void 0 ? void 0 : e.response) === null || _a === void 0 ? void 0 : _a.headers) === null || _b === void 0 ? void 0 : _b.location; });
+                .catch((e) => { var _a, _b; return (_b = (_a = e === null || e === void 0 ? void 0 : e.response) === null || _a === void 0 ? void 0 : _a.headers) === null || _b === void 0 ? void 0 : _b.location; });
             if (data) {
                 const _url = data;
                 const _valid = _url.match(REGEXP);
