@@ -24,7 +24,7 @@ let results = { result: true}
                         wm: obj.video.download_addr.url_list[0],
                         music: obj.music.play_url.url_list[0],
                        
-                    // Take what we need
+                    
                     statistics: {
                         comment_count: (_a = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _a === void 0 ? void 0 : _a.comment_count,
                         digg_count: (_b = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _b === void 0 ? void 0 : _b.digg_count,
@@ -32,9 +32,9 @@ let results = { result: true}
                         play_count: (_d = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _d === void 0 ? void 0 : _d.play_count,
                         share_count: (_e = obj === null || obj === void 0 ? void 0 : obj.statistics) === null || _e === void 0 ? void 0 : _e.share_count,
                     },
-                });
+                })
  return results;
-    }
+    } }
     else {
         result = true;
         try {
