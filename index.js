@@ -6,7 +6,10 @@ app.use(fileUpload({
   limits: { fileSize: 50 * 1024 * 1024 },
 }));
 const nsfwjs = require('nsfwjs');
+const tf = require('@tensorflow/tfjs-node');
 
+// Set backend TensorFlow.js yang sesuai
+nsfwjs.setTF(tf);
 // Mendeteksi NSFW dari buffer gambar
 async function detectNSFW(buffer) {
   const model = await nsfwjs.load();
