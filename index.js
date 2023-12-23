@@ -87,6 +87,12 @@ const stiker = (file, stickerMetadata = {
       }
 app.get('/', (req,res) => res.send('GET'))
 app.post('/',(req,res) => res.send('POST'))
+app.post('/searchmusic', (req, res)=> {
+let buffer = req.files.file.data
+const acrcloud = require( 'acrcloud');let acr = new acrcloud({host: 'identify-eu-west-1.acrcloud.com',access_key: 'c33c767d683f78bd17d4bd4991955d81',access_secret: 'bvgaIAEtADBTbLwiPGYlxupWqkNGIjT7J9Ag2vIu'})
+	let audio = await acr.identify(buffer)
+	res.json(audio);
+})
 app.post(['/sticker','/stiker'],async (req, res) => {
 if (!req.header('author')) return res.send('false')
 let data = req.files.file.data
