@@ -97,7 +97,7 @@ const getChatBaseResponse = async (messages, proxy) => {
     return responseArray.join('');
 };
 
-const text = req.body.text;
+const text = req.body;
 	if (!text) return res.json({text:"Empety Param"})
 const messages = [{
   role: 'system',
