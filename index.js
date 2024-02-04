@@ -85,7 +85,7 @@ const stiker = (file, stickerMetadata = {
 
 app.post('/aichat', async (req, res)=>{
 const model = 'gpt-4';
-console.log(req.body)
+console.log(req)
 const getChatBaseResponse = async (messages, proxy) => {
     const responseChunks = await ChatBase.createAsyncGenerator(model, messages, true, {});
     const responseArray = [];
