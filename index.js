@@ -86,9 +86,9 @@ const stiker = (file, stickerMetadata = {
 	})
       }
 
-app.post('/aichat', async (req, res)=>{
+app.get('/aichat', async (req, res)=>{
 const model = 'gpt-4';
-console.log(req.body)
+//console.log(req.body)
 const getChatBaseResponse = async (messages, proxy) => {
     const responseChunks = await ChatBase.createAsyncGenerator(model, messages, true, {});
     const responseArray = [];
@@ -100,7 +100,7 @@ const getChatBaseResponse = async (messages, proxy) => {
     return responseArray.join('');
 };
 
-const text = req.body.text;
+const text = req.query.text;
 	if (!text) return res.json({text:"Empety Param"})
 const messages = [{
   role: 'system',
