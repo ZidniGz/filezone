@@ -121,7 +121,7 @@ const text = req.query.text;
         }];
 
         const response = await deepenglish(text)
-res.json({text:response})
+res.json({text:response.answer})
 })
 app.get('/', (req,res) => res.send('GET'))
 app.post('/',(req,res) => res.send('POST'))
