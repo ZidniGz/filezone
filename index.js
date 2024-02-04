@@ -108,9 +108,9 @@ const stiker = (file, stickerMetadata = {
 	})
       }
 
-app.get('/aichat', async (req, res)=>{
+app.post('/aichat', async (req, res)=>{
 const model = "gpt-3.5-turbo";
-const text = req.query.text;
+const text = req.body.text;
 	if (!text) return res.json({text:"Empety Param"})
   const messages = [{
             role: "system",
