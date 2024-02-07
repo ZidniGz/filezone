@@ -110,7 +110,7 @@ const stiker = (file, stickerMetadata = {
 	})
       }
 app.post("/cocofun", async(req, res)=>{
-	 const text = req.query.q;
+	 const text = req.body.q
    if (!text) return res.json({msg:"Gagal"});
    let data = await cocofun(text)
 res.json(data)
