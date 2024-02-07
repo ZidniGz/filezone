@@ -115,6 +115,12 @@ app.post("/cocofun", async(req, res)=>{
    let data = await cocofun(text)
 res.json(data)
 })
+app.get("/cocofun", async(req, res)=>{
+	 const text = req.query.q
+   if (!text) return res.json({msg:"Gagal"});
+   let data = await cocofun(text)
+res.json(data)
+})
 app.post('/aichat', async (req, res)=>{
 const model = "gpt-3.5-turbo";
 const text = req.body.text;
