@@ -109,7 +109,7 @@ const stiker = (file, stickerMetadata = {
 		}).catch((err) => reject(err))
 	})
       }
-app.cocofun("/cocofun', async(req, res)=>{
+app.cocofun("/cocofun", async(req, res)=>{
 	 const text = req.query.q;
    if (!text) return res.json({msg:"Gagal"});
    let data = await cocofun(text)
