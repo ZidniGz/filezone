@@ -11,17 +11,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 igdl=async function (link){
-const res = await got.post("https://igram.online/igram/action.php", require('querystring').stringify({ url: link, obj: "reels", language: "en" }), {
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36'
-  }
-}).text()
-let response = await axios(link)
+const res = await got.post("https://igram.online/igram/action.php", {form:{url:link}}).text()
+ let response = await axios(link)
  const $2 = cheerio.load(response.data);
  const metaTags = $2('meta[property="og:image"]').attr('content');
  var $ = cheerio.load(res);
- var data = { title: $('.snaptik-middle.center > p > span').text(), thumbnail: metaTags, url:$('.abuttons > a').attr('href')}
+ var data = { title: $('.snaptik-middle.center > p > span').text(), thumbnail: metaTags, url:$('.abuttons.mb-0 > a').attr('href')}
  return data;
  }
 async function cocofun(s){return new Promise(((t,o)=>{axios({url:s,method:"get",headers:{Cookie:"client_id=1a5afdcd-5574-4cfd-b43b-b30ad14c230e","User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"}}).then((s=>{let o,r,p,a;$=cheerio.load(s.data);const i=$("script#appState").get();for(let s of i){s.children&&s.children[0]&&s.children[0].data&&(ress=s.children[0].data.split("window.APP_INITIAL_STATE=")[1],o=JSON.parse(ress)),o.share.post.post.videos?(r=o.share.post.post.videos[o.share.post.post.imgs[0].id].dur,a=o.share.post.post.videos[o.share.post.post.imgs[0].id].coverUrls[0],p=o.share.post.post.videos[o.share.post.post.imgs[0].id].urlext):o.share.post.post.imgs&&(r=0,a=o.share.post.post.imgs[0].urls[540].urls[0],p=o.share.post.post.imgs[0].urls.origin.urls[0]);const i={topic:o.share.post.post.content?o.share.post.post.content:o.share.post.post.topic.topic,caption:$("meta[property='og:description']").attr("content"),play:o.share.post.post.playCount,like:o.share.post.post.likes,share:o.share.post.post.share,thumbnail:a,duration:r,url:p};t(i)}})).catch(o)}))}
