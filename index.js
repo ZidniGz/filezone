@@ -211,7 +211,7 @@ const text = req.body.text;
         const response = await deepenglish(text)
 res.json({text:response.answer})
 })
-app.post("/", async(req, res)=> {
+app.post("/enhance", async(req, res)=> {
 let buffer = req.files.file.data
 	const out = await processImg(buffer, "enhance");
 	res.send(out)
