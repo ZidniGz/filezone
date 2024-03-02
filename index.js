@@ -10,6 +10,51 @@ app.use(fileUpload({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const processImg = async(urlPath, method)=>{
+	return new Promise(async (resolve, reject) => {
+		let Methods = ["enhance", "recolor", "dehaze"];
+		Methods.includes(method) ? (method = method) : (method = Methods[0]);
+		let buffer,
+			Form = new require('form-data')(),
+			scheme = "https" + "://" + "inferenceengine" + ".vyro" + ".ai/" + method;
+		Form.append("model_version", 1, {
+			"Content-Transfer-Encoding": "binary",
+			contentType: "multipart/form-data; charset=uttf-8",
+		});
+		Form.append("image", Buffer.from(urlPath), {
+			filename: "enhance_image_body.jpg",
+			contentType: "image/jpeg",
+		});
+		Form.submit(
+			{
+				url: scheme,
+				host: "inferenceengine" + ".vyro" + ".ai",
+				path: "/" + method,
+				protocol: "https:",
+				headers: {
+					"User-Agent": "okhttp/4.9.3",
+					Connection: "Keep-Alive",
+					"Accept-Encoding": "gzip",
+				},
+			},
+			function (err, res) {
+				if (err) reject();
+				let data = [];
+				res
+					.on("data", function (chunk, resp) {
+						data.push(chunk);
+					})
+					.on("end", () => {
+						resolve(Buffer.concat(data));
+					});
+				res.on("error", (e) => {
+					reject();
+				});
+			}
+		);
+	});
+}   
+
 igdl=async function (link){
 const res = await got.post("https://igram.online/igram/action.php", {form:{url:link}}).text()
  let response = await axios(link)
@@ -165,6 +210,11 @@ const text = req.body.text;
 
         const response = await deepenglish(text)
 res.json({text:response.answer})
+})
+app.post("/", async(req, res)=> {
+let buffer = req.files.file.data
+	const out = await processImg(buffer, "enhance");
+	res.send(out)
 })
 app.get('/', (req,res) => res.send('GET'))
 app.post('/',(req,res) => res.send('POST'))
