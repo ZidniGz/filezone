@@ -20,6 +20,12 @@ router.get('/', async(req, res) => {
     res.json(data);
 });
 
+router.get('/api/data/:id', async (req, res) => {
+    const { id } = req.params;
+    const data = await collection.findOne({ _id: id });
+    res.json(data);
+});
+
 
 router.post('/', async (req, res) => {
     const newData = req.body;
