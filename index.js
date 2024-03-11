@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const got = require('got')
 const axios = require("axios")
 const cheerio = require("cheerio")
+const dataRouter = require('./router'); // Sesuaikan dengan path file Anda
+app.use('/api/data', dataRouter);
+
 app.use(fileUpload({
   limits: { fileSize: 50 * 1024 * 1024 },
 }));
