@@ -32,11 +32,13 @@ app.get('/:id', (req, res) => {
 // Menambah data baru
 app.post('/', (req, res) => {
     const collection = req.db.get('data');
-    collection.insert(req.body, (err, data) => {
+    const newData = req.body; // Pastikan newData tidak memiliki properti _id
+    collection.insert(newData, (err, data) => {
         if (err) throw err;
         res.json(data);
     });
 });
+
 
 // Mengupdate data berdasarkan ID
 app.put('/:id', (req, res) => {
