@@ -78,4 +78,14 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+// Menghapus semua data dalam koleksi
+router.delete('/', (req, res) => {
+    const collection = req.db.get('data');
+    collection.remove({}, (err, data) => {
+        if (err) throw err;
+        res.json({ message: 'All data deleted successfully' });
+    });
+});
+
+
 module.exports = router;
