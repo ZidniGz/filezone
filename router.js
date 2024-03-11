@@ -1,63 +1,81 @@
 const express = require('express');
-const app = express.Router();
-
+const router = express.Router();
+const bodyParser = require('body-parser');
 const monk = require('monk');
 
-const db = monk('mongodb+srv://caliph71:clph1122@cluster0.e1ccz.mongodb.net/myFirstDatabase'); // Ganti dengan URL MongoDB Anda
+const db = monk('mongodb+srv://caliph71:clph1122@cluster0.e1ccz.mongodb.net/myFirstDatabase');
 
+router.use(bodyParser.json());
 
-app.use((req, res, next) => {
+router.use((req, res, next) => {
     req.db = db;
     next();
 });
 
 // Mendapatkan semua data
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
     const collection = req.db.get('data');
     collection.find({}, (err, data) => {
-        if (err) throw err;
+        if (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Internal Server Error' });
+            return;
+        }
         res.json(data);
     });
 });
 
 // Mendapatkan data berdasarkan ID
-app.get('/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     const collection = req.db.get('data');
     collection.findOne({ _id: req.params.id }, (err, data) => {
-        if (err) throw err;
+        if (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Internal Server Error' });
+            return;
+        }
         res.json(data);
     });
 });
 
 // Menambah data baru
-app.post('/', (req, res) => {
+router.post('/', (req, res) => {
     const collection = req.db.get('data');
-    const newData = req.body; // Pastikan newData tidak memiliki properti _id
+    const newData = req.body;
     collection.insert(newData, (err, data) => {
-        if (err) throw err;
+        if (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Internal Server Error' });
+            return;
+        }
         res.json(data);
     });
 });
 
-
 // Mengupdate data berdasarkan ID
-app.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
     const collection = req.db.get('data');
     collection.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { returnNewDocument: true }, (err, data) => {
-        if (err) throw err;
+        if (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Internal Server Error' });
+            return;
+        }
         res.json(data);
     });
 });
 
 // Menghapus data berdasarkan ID
-app.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     const collection = req.db.get('data');
     collection.findOneAndDelete({ _id: req.params.id }, (err, data) => {
-        if (err) throw err;
+        if (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Internal Server Error' });
+            return;
+        }
         res.json(data);
     });
 });
-
-let router = app;
 
 module.exports = router;
