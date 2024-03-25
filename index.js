@@ -2,6 +2,9 @@ const app = require ("express")()
 const fileUpload = require ("express-fileupload")
 const bodyParser = require('body-parser');
 const got = require('got')
+const ExcelJS = require('exceljs');
+ const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Data Pemilu');
 const axios = require("axios")
 const cheerio = require("cheerio")
 const dataRouter = require('./router'); // Sesuaikan dengan path file Anda
@@ -218,6 +221,26 @@ app.post("/enhance", async(req, res)=> {
 let buffer = req.files.file.data
 	const out = await processImg(buffer, "enhance");
 	res.send(out)
+})
+app.post("/api/createExcel", async (req,res)=>{
+worksheet.columns = [
+        { header: 'Nama', key: 'name', width: 10 },
+        { header: 'Tanggal Lahir', key: 'birth_date', width: 10 },
+        { header: 'Umur', key: 'age', width: 10 },
+        { header: 'Jenis Kelamin', key: 'gender', width: 10 },
+        { header: 'Status Pemilih', key: 'voter_status', width: 10 },
+    ];
+
+    // Add data to the table (example)
+    if (req.body){
+      for (let i of req.body)
+    worksheet.addRow({name: i.nama, birth_date: i.tanggalLahir,  age: i.umur, gender: i.gender, voter_status: i.status});
+
+    // Save workbook to a buffer
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    res.send(buffer)
+    }
 })
 app.get('/', (req,res) => res.send('GET'))
 app.post('/',(req,res) => res.send('POST'))
