@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const got = require('got')
 const ExcelJS = require('exceljs');
  const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Data Pemilu');
+    const worksheet = workbook.addWorksheet('Data Pemilu',{properties:{tabColor:{argb:'ADFF2F'}}}
 const axios = require("axios")
 const cheerio = require("cheerio")
 const dataRouter = require('./router'); // Sesuaikan dengan path file Anda
@@ -224,12 +224,13 @@ let buffer = req.files.file.data
 })
 app.post("/api/createExcel", async (req,res)=>{
 worksheet.columns = [
-        { header: 'Nama', key: 'name', width: 10 },
-        { header: 'Tanggal Lahir', key: 'birth_date', width: 10 },
-        { header: 'Umur', key: 'age', width: 10 },
-        { header: 'Jenis Kelamin', key: 'gender', width: 10 },
-        { header: 'Status Pemilih', key: 'voter_status', width: 10 },
-    ];
+    { header: 'Nama', key: 'name', width: 18, style: { fill: { type: 'pattern', pattern:'solid', fgColor:{argb:'FFFF00'} } } },
+    { header: 'Tanggal Lahir', key: 'birth_date', width: 14, style: { fill: { type: 'pattern', pattern:'solid', fgColor:{argb:'FFFF00'} } } },
+    { header: 'Umur', key: 'age', width: 5, style: { fill: { type: 'pattern', pattern:'solid', fgColor:{argb:'FFFF00'} } } },
+    { header: 'Jenis Kelamin', key: 'gender', width: 14, style: { fill: { type: 'pattern', pattern:'solid', fgColor:{argb:'FFFF00'} } } },
+    { header: 'Status Pemilih', key: 'voter_status', width: 18, style: { fill: { type: 'pattern', pattern:'solid', fgColor:{argb:'FFFF00'} } } },
+];
+
 
     // Add data to the table (example)
     if (req.body){
