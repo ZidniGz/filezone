@@ -230,7 +230,7 @@ app.get("/convert", async (req,res)=>{
   console.log(id);console.log(q);
   if (!id) return res.json({msg:false});
   let data = await convert2(id,q)
-  res.json(data)
+  res.send(await got(data.dlink).buffer())
 })
 
 app.get("/tiktok", async (req, res) => {
