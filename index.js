@@ -248,7 +248,7 @@ app.get("/convert", async (req, res) => {
   res.setHeader('Content-Disposition', `attachment; filename="video.${file.ext}"`);
   res.setHeader('Content-Type', file.mime);
 
-  await pipeline(response, res);
+   response.pipe(res);
 });
 
 function streamToBuffer(stream) {
