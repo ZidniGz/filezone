@@ -231,7 +231,7 @@ app.get("/convert", async (req,res)=>{
   if (!id) return res.json({msg:false});
   let data = await convert2(id,q)
   let buffer =await got(data.dlink, {referer: "https://y2mate.com"}).buffer()
-  res.send(data)
+  res.send(buffer)
 })
 
 app.get("/tiktok", async (req, res) => {
