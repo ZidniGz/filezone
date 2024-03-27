@@ -231,11 +231,6 @@ app.get("/youtube", async (req,res)=>{
   let data = await yt_dl(url)
   res.json(data)
 })
-const got = require('got');
-const stream = require('stream');
-const { promisify } = require('util');
-const fileType = require('file-type');
-const pipeline = promisify(stream.pipeline);
 
 app.get("/convert", async (req, res) => {
   let id = req.query.id;
