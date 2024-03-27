@@ -229,7 +229,7 @@ app.get("/youtube", async (req,res)=>{
   let url = req.query.url
   let type = req.query.type
   if (!url) return res.json({msg:false});
-  if (type === 'mp3){
+  if (type === 'mp3'){
 let json = await yt_dl(url)
   let data = await convert2(json.id, json.audio['128kbps'].q)
   res.json(data)
