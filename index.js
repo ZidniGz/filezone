@@ -15,7 +15,7 @@ const xml2js = require("xml2js");
 const stream = require('stream');
 const { promisify } = require('util');
 const pipeline = promisify(stream.pipeline);
-const {frombuffer} = require("file-type")
+const {fromBuffer} = require("file-type")
 const dataRouter = require("./router"); // Sesuaikan dengan path file Anda
 app.use("/api/data", dataRouter);
 
