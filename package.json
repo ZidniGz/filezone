@@ -28,6 +28,8 @@
     "dotenv": "^16.0.1",
     "exceljs":"*",
     "express-fileupload":"*",
+    "xml2js":"*",
+    "ytdl-core":"*",
     "ejs": "github:caliphdev/ejs",
     "monk":"*",
     "express": "^4.17.1",
