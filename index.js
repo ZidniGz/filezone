@@ -226,7 +226,7 @@ app.get("/youtube", async (req,res)=>{
 })
 app.get("/convert", async (req,res)=>{
   let id = req.query.id
-  let q = req.query.kualias
+  let q = req.query.kualitas
   if (!id) return res.json({msg:false});
   let data = await convert2(id,q)
   res.json(data)
