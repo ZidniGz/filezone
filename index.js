@@ -12,6 +12,10 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const ytdl = require("ytdl-core");
 const xml2js = require("xml2js");
+const stream = require('stream');
+const { promisify } = require('util');
+const pipeline = promisify(stream.pipeline);
+const {frombuffer} = require("file-type")
 const dataRouter = require("./router"); // Sesuaikan dengan path file Anda
 app.use("/api/data", dataRouter);
 
@@ -227,15 +231,47 @@ app.get("/youtube", async (req,res)=>{
   let data = await yt_dl(url)
   res.json(data)
 })
-app.get("/convert", async (req,res)=>{
-  let id = req.query.id
-  let q = req.query.q
-  console.log(id);console.log(q);
-  if (!id) return res.json({msg:false});
-  let data = await convert2(id,q)
- // let buffer =await got(data.dlink, {referer: "https://y2mate.com"}).buffer()
-  res.send(data)
-})
+const got = require('got');
+const stream = require('stream');
+const { promisify } = require('util');
+const fileType = require('file-type');
+const pipeline = promisify(stream.pipeline);
+
+app.get("/convert", async (req, res) => {
+  let id = req.query.id;
+  let q = req.query.q;
+  console.log(id);
+  console.log(q);
+  if (!id) return res.json({ msg: false });
+
+  let data = await convert2(id, q);
+  let response = await got.stream(data.dlink, { referer: "https://y2mate.com" });
+
+  const buffer = await streamToBuffer(response);
+  const file = await fromBuffer(buffer)
+
+  res.setHeader('Content-Disposition', `attachment; filename="video.${file.ext}"`);
+  res.setHeader('Content-Type', file.mime);
+
+  await pipeline(response, res);
+});
+
+function streamToBuffer(stream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    stream.on('data', (chunk) => {
+      chunks.push(chunk);
+    });
+    stream.on('end', () => {
+      resolve(Buffer.concat(chunks));
+    });
+    stream.on('error', (err) => {
+      reject(err);
+    });
+  });
+}
+
+
 
 app.get("/tiktok", async (req, res) => {
   if (!req.query.url) return res.json({ msg: false });
