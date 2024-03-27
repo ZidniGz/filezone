@@ -29,6 +29,7 @@
     "exceljs":"*",
     "express-fileupload":"*",
     "xml2js":"*",
+    "stream":"*",
     "ytdl-core":"*",
     "ejs": "github:caliphdev/ejs",
     "monk":"*",
