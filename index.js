@@ -121,7 +121,7 @@ worksheet.getRow(1).eachCell((cell) => {
 });
 
 // Mengaplikasikan perubahan style
-worksheet.commit();
+//worksheet.commit();
   
   // Add data to the table (example)
   if (req.body) {
