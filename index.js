@@ -5,9 +5,7 @@ const bodyParser = require("body-parser");
 const got = require("got");
 const ExcelJS = require("exceljs");
 const workbook = new ExcelJS.Workbook();
-const worksheet = workbook.addWorksheet("Data Pemilu", {
-  properties: { tabColor: { argb: "ADFF2F" } },
-});
+const worksheet = workbook.addWorksheet("Data Pemilu");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const ytdl = require("ytdl-core");
