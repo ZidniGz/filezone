@@ -104,68 +104,25 @@ app.post("/enhance", async (req, res) => {
 });
 app.post("/api/createExcel", async (req, res) => {
   worksheet.columns = [
-    {
-      header: "Nama",
-      key: "name",
-      width: 18,
-      style: {
-        fill: {
-          type: "pattern",
-          pattern: "solid",
-          fgColor: { argb: "FFFF00" },
-        },
-      },
-    },
-    {
-      header: "Tanggal Lahir",
-      key: "birth_date",
-      width: 14,
-      style: {
-        fill: {
-          type: "pattern",
-          pattern: "solid",
-          fgColor: { argb: "FFFF00" },
-        },
-      },
-    },
-    {
-      header: "Umur",
-      key: "age",
-      width: 5,
-      style: {
-        fill: {
-          type: "pattern",
-          pattern: "solid",
-          fgColor: { argb: "FFFF00" },
-        },
-      },
-    },
-    {
-      header: "Jenis Kelamin",
-      key: "gender",
-      width: 14,
-      style: {
-        fill: {
-          type: "pattern",
-          pattern: "solid",
-          fgColor: { argb: "FFFF00" },
-        },
-      },
-    },
-    {
-      header: "Status Pemilih",
-      key: "voter_status",
-      width: 18,
-      style: {
-        fill: {
-          type: "pattern",
-          pattern: "solid",
-          fgColor: { argb: "FFFF00" },
-        },
-      },
-    },
-  ];
+  { header: "Nama", key: "name", width: 18 },
+  { header: "Tanggal Lahir", key: "birth_date", width: 14 },
+  { header: "Umur", key: "age", width: 5 },
+  { header: "Jenis Kelamin", key: "gender", width: 14 },
+  { header: "Status Pemilih", key: "voter_status", width: 18 }
+];
 
+// Mengatur style fill hanya pada nama judul kolom
+worksheet.getRow(1).eachCell((cell) => {
+  cell.fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: "FFFF00" }
+  };
+});
+
+// Mengaplikasikan perubahan style
+worksheet.commit();
+  
   // Add data to the table (example)
   if (req.body) {
     for (let i of req.body)
