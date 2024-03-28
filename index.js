@@ -233,6 +233,7 @@ app.get("/youtube", async (req,res)=>{
 let json = await yt_dl(url)
   let data = await convert2(json.id, json.audio['128kbps'].q)
     data.duration = json.duration
+    data.dlink = await got(data.dlink, {referer:"https://www.y2mate.com"}).buffer()
   res.json(data)
       } else {
   let json = await yt_dl(url)
