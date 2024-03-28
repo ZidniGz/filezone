@@ -129,7 +129,7 @@ const buffer = await workbook.xlsx.writeBuffer();
 // Mengaplikasikan perubahan style dan mengembalikan buffer
 res.send(buffer);
 
-  }
+  
 });
 app.get("/", (req, res) => res.json({message:`Hallo world!, my name is Zidni Al 'Azmi`}));
 app.post("/", (req, res) => res.json({message:`Hallo world!, my name is Zidni Al 'Azmi`}));
