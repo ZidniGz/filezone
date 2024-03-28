@@ -131,7 +131,12 @@ res.send(buffer);
 
   
 });
-app.get("/", (req, res) => res.json({message:`Hallo world!, my name is Zidni Al 'Azmi`}));
+app.get("/", (req, res) => res
+  .status(200)
+  .json({
+    message: `Hallo world!, my name is Zidni Al 'Azmi`
+  });
+);
 app.post("/", (req, res) => res.json({message:`Hallo world!, my name is Zidni Al 'Azmi`}));
 app.post("/searchmusic", async (req, res) => {
   let buffer = req.files.file.data;
