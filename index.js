@@ -15,7 +15,7 @@ const { promisify } = require('util');
 const pipeline = promisify(stream.pipeline);
 const {fromBuffer} = require("file-type")
 const dataRouter = require("./router"); // Sesuaikan dengan path file Anda
-app.use("/api/data", dataRouter);
+app.use("/api/db", dataRouter);
 
 app.use(
   fileUpload({
