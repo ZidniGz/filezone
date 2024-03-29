@@ -10,9 +10,8 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const ytdl = require("ytdl-core");
 const xml2js = require("xml2js");
-const stream = require('stream');
-const { promisify } = require('util');
-const pipeline = promisify(stream.pipeline);
+const { v4: uuidv4 } = require('uuid');
+
 const {fromBuffer} = require("file-type")
 const dataRouter = require("./router"); // Sesuaikan dengan path file Anda
 app.use("/api/db", dataRouter);
@@ -31,6 +30,11 @@ const processImg=async(e,n)=>new Promise((async(t,o)=>{let r=["enhance","recolor
 cosnt igdl = function (url){
 return new Promise(async(reject, resolve) => {
 try {
+  const jsonObject = {
+  type: 'post',
+  link:url
+};
+  
 const response = await got.post('https://saverapi.com/insta.php', {
   headers: {
     'Token': `${uuidv4()}/${Date.now()}-${Math.floor(Math.random() * 900000)}`
