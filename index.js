@@ -10,7 +10,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const ytdl = require("ytdl-core");
 const xml2js = require("xml2js");
-const { v4: uuidv4 } = require('uuid');
+const { v4 } = require('uuid');
 
 const {fromBuffer} = require("file-type")
 const dataRouter = require("./router"); // Sesuaikan dengan path file Anda
@@ -27,7 +27,7 @@ app.use(express.json({limit: '100mb'}));
 app.use(express.urlencoded({limit: '100mb'}));
 async function getTranscript(e){try{const t=await ytdl.getInfo(e);if(!("captions"in t.player_response))return;const a=t.player_response.captions.playerCaptionsTracklistRenderer.captionTracks[0].baseUrl,r=await fetch(a),n=await r.text();return new Promise(((e,t)=>{xml2js.parseString(n,((a,r)=>{if(a)t(a);else{const t=r.transcript.text.map((e=>e._)).join(" ").replace(/&#39;/g,"'").replace(/i /g,"I ").replace(/ \[Music\]/g,"");e(t)}}))}))}catch(e){}}
 const processImg=async(e,n)=>new Promise((async(t,o)=>{let r=["enhance","recolor","dehaze"];n=r.includes(n)?n:r[0];let a=new require("form-data")(),i="https://inferenceengine.vyro.ai/"+n;a.append("model_version",1,{"Content-Transfer-Encoding":"binary",contentType:"multipart/form-data; charset=uttf-8"}),a.append("image",Buffer.from(e),{filename:"enhance_image_body.jpg",contentType:"image/jpeg"}),a.submit({url:i,host:"inferenceengine.vyro.ai",path:"/"+n,protocol:"https:",headers:{"User-Agent":"okhttp/4.9.3",Connection:"Keep-Alive","Accept-Encoding":"gzip"}},(function(e,n){e&&o();let r=[];n.on("data",(function(e,n){r.push(e)})).on("end",(()=>{t(Buffer.concat(r))})),n.on("error",(e=>{o()}))}))}));
-const igdl = function (url){
+
 const igdl = function (url){
   return new Promise(async(resolve, reject) => {
     try {
@@ -206,11 +206,11 @@ app.get("/instagram", async(req,res)=>{
   let url = req.query.url;
   if (!url) return res.json({msg:false});
   let json = await igdl(url)
-  res.status(200).json(json)
+  res.json(json);
   
 
   
-})
+});
 
 
 
