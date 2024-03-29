@@ -28,21 +28,20 @@ app.use(express.json({limit: '100mb'}));
 app.use(express.urlencoded({limit: '100mb'}));
 async function getTranscript(e){try{const t=await ytdl.getInfo(e);if(!("captions"in t.player_response))return;const a=t.player_response.captions.playerCaptionsTracklistRenderer.captionTracks[0].baseUrl,r=await fetch(a),n=await r.text();return new Promise(((e,t)=>{xml2js.parseString(n,((a,r)=>{if(a)t(a);else{const t=r.transcript.text.map((e=>e._)).join(" ").replace(/&#39;/g,"'").replace(/i /g,"I ").replace(/ \[Music\]/g,"");e(t)}}))}))}catch(e){}}
 const processImg=async(e,n)=>new Promise((async(t,o)=>{let r=["enhance","recolor","dehaze"];n=r.includes(n)?n:r[0];let a=new require("form-data")(),i="https://inferenceengine.vyro.ai/"+n;a.append("model_version",1,{"Content-Transfer-Encoding":"binary",contentType:"multipart/form-data; charset=uttf-8"}),a.append("image",Buffer.from(e),{filename:"enhance_image_body.jpg",contentType:"image/jpeg"}),a.submit({url:i,host:"inferenceengine.vyro.ai",path:"/"+n,protocol:"https:",headers:{"User-Agent":"okhttp/4.9.3",Connection:"Keep-Alive","Accept-Encoding":"gzip"}},(function(e,n){e&&o();let r=[];n.on("data",(function(e,n){r.push(e)})).on("end",(()=>{t(Buffer.concat(r))})),n.on("error",(e=>{o()}))}))}));
-igdl = async function (link) {
-  const res = await got
-    .post("https://igram.online/igram/action.php", { form: { url: link } })
-    .text();
-  let response = await axios(link);
-  const $2 = cheerio.load(response.data);
-  const metaTags = $2('meta[property="og:image"]').attr("content");
-  var $ = cheerio.load(res);
-  var data = {
-    title: $(".snaptik-middle.center > p > span").text(),
-    thumbnail: metaTags,
-    url: $(".abuttons.mb-0 > a").attr("href"),
-  };
-  return data;
-};
+cosnt igdl = function (url){
+return new Promise(async(reject, resolve) => {
+try {
+const response = await got.post('https://saverapi.com/insta.php', {
+  headers: {
+    'Token': `${uuidv4()}/${Date.now()}-${Math.floor(Math.random() * 900000)}`
+  },
+  json: jsonObject
+}).json();
+resolve(response)
+} catch (e) {
+reject(e);
+}})
+}
 const yt_dl=t=>new Promise((async(e,i)=>{try{let i="en";const s=await got.post("https://www.y2mate.com/mates/analyzeV2/ajax",{headers:{accept:"*/*","accept-encoding":"gzip, deflate, br","content-type":"application/x-www-form-urlencoded; charset=UTF-8",cookie:"_gid=GA1.2.2055666962.1683248123; _gat_gtag_UA_84863187_21=1; _ga_K8CD7CY0TZ=GS1.1.1683248122.1.1.1683249010.0.0.0; _ga=GA1.1.1570308475.1683248122",origin:"https://www.y2mate.com","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"},form:{k_query:t,k_page:"home",hl:i,q_auto:0}}).json();function o(t){const e=parseFloat(t);return(isNaN(e)?0:e)*(/GB/i.test(t)?1e6:/MB/i.test(t)?1e3:/KB/i.test(t)?1:/bytes?/i.test(t)?.001:/B/i.test(t)?.1:0)}const n=s.vid,a={},c={};let l=[];for(const t in s.links.mp4){const e=s.links.mp4[t];if("mp4"!==e.f)continue;const i=o(e.size);l.push(e.q),a[e.q]={quality:e.q,fileSizeH:e.size,fileSize:i,q:e.k}}let p=[];for(const t in s.links.mp3){const e=s.links.mp3[t];if("mp3"!==e.f)continue;const i=o(e.size);p.push(e.q),c[e.q]={quality:e.q,fileSizeH:e.size,fileSize:i,q:e.k}}e({id:n,thumbnail:`https://i.ytimg.com/vi/${n}/0.jpg`,title:s.title,duration:`${Math.floor(s.t/60)}:${s.t%60}`,qualities:l,video:a,audio:c})}catch(t){i(t)}}));
 const convert2=async function(e,t){return(await got("https://www.y2mate.com/mates/convertV2/index",{method:"POST",headers:{accept:"*/*","accept-encoding":"gzip, deflate, br","content-type":"application/x-www-form-urlencoded; charset=UTF-8",cookie:"_gid=GA1.2.2055666962.1683248123; _ga=GA1.1.1570308475.1683248122; _ga_K8CD7CY0TZ=GS1.1.1683248122.1.1.1683248164.0.0.0; prefetchAd_3381349=true",origin:"https://www.y2mate.com","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"},form:{vid:e,k:t}}).json())};
 const youtube=t=>new Promise((async(e,i)=>{try{let i="en";const n=await got.post("https://www.y2mate.com/mates/analyzeV2/ajax",{headers:{accept:"*/*","accept-encoding":"gzip, deflate, br","content-type":"application/x-www-form-urlencoded; charset=UTF-8",cookie:"_gid=GA1.2.2055666962.1683248123; _gat_gtag_UA_84863187_21=1; _ga_K8CD7CY0TZ=GS1.1.1683248122.1.1.1683249010.0.0.0; _ga=GA1.1.1570308475.1683248122",origin:"https://www.y2mate.com","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"},form:{k_query:t,k_page:"home",hl:i,q_auto:0}}).json();function o(t){const e=parseFloat(t);return(isNaN(e)?0:e)*(/GB/i.test(t)?1e6:/MB/i.test(t)?1e3:/KB/i.test(t)?1:/bytes?/i.test(t)?.001:/B/i.test(t)?.1:0)}const c=async function(t,e){return(await got("https://www.y2mate.com/mates/convertV2/index",{method:"POST",headers:{accept:"*/*","accept-encoding":"gzip, deflate, br","content-type":"application/x-www-form-urlencoded; charset=UTF-8",cookie:"_gid=GA1.2.2055666962.1683248123; _ga=GA1.1.1570308475.1683248122; _ga_K8CD7CY0TZ=GS1.1.1683248122.1.1.1683248164.0.0.0; prefetchAd_3381349=true",origin:"https://www.y2mate.com","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"},form:{vid:t,k:e}}).json()).dlink},s=n.vid,r={};for(const t in n.links.mp4){const e=n.links.mp4[t],i=e.q;if("mp4"!==e.f)continue;const a=e.size,l=o(a);r[i]={quality:i,fileSizeH:a,fileSize:l,download:c.bind(c,s,e.k)}}e({id:s,thumbnail:`https://i.ytimg.com/vi/${s}/0.jpg`,title:n.title,duration:(a=n.t,`${Math.floor(a/60)}:${a%60}`),url:await r.auto.download()})}catch(t){i(t)}var a}));
@@ -194,6 +193,16 @@ let json = await yt_dl(url)
   }
 })
 
+app.get("/instagram", async(req,res)=>{
+
+  let url = req.query.url;
+  if (!url) return res.json({msg:false});
+  let json = await igdl(url)
+  res.status(200).json(json)
+  
+
+  
+})
 
 
 
