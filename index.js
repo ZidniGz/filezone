@@ -182,21 +182,21 @@ app.get("/transcript", async (req, res) => {
     res.status(500).send("Error getting transcript");
   }
 });
-app.get("/youtube", async (req,res)=>{
-  let url = req.query.url
-  let type = req.query.type
+app.post("/youtube", async (req,res)=>{
+  let url = req.body.url
+  let type = req.body.type
   if (!url) return res.json({msg:false});
   if (type === 'mp3'){
 let json = await yt_dl(url)
   let data = await convert2(json.id, json.audio['128kbps'].q)
     data.duration = json.duration
     data.quality = json.audio['128kbps']
-  res.json(data)
+  res.send(data)
       } else {
   let json = await yt_dl(url)
   let data = await convert2(json.id, json.video.auto.q)
       data.duration = json.duration
-  res.json(data)
+  res.send(data)
   }
 })
 
