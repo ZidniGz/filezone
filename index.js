@@ -148,11 +148,10 @@ app.post("/", (req, res) => res.json({message:`Hallo world!, my name is Zidni Al
 app.post("/searchmusic", async (req, res) => {
   let buffer = req.files.file.data;
   const acrcloud = require("acrcloud");
-  let acr = new acrcloud({
-    host: "identify-eu-west-1.acrcloud.com",
-    access_key: "c33c767d683f78bd17d4bd4991955d81",
-    access_secret: "bvgaIAEtADBTbLwiPGYlxupWqkNGIjT7J9Ag2vIu",
-  });
+   let acr = new acrcloud({
+        host: "identify-us-west-2.acrcloud.com/",
+   access_key: "5fa558ba9eebbab70db053014f283431",
+   access_secret: "4zblfTHO0JNtvRVggdamzuvABy9TKN9FPjyz0f3w"  });
   let audio = await acr.identify(buffer);
   res.json(audio);
 });
@@ -191,7 +190,7 @@ app.get("/youtube", async (req,res)=>{
 let json = await yt_dl(url)
   let data = await convert2(json.id, json.audio['128kbps'].q)
     data.duration = json.duration
-    data.dlink = await got(data.dlink, {referer:"https://www.y2mate.com"}).buffer()
+    data.quality = json.audio['128kbps']
   res.json(data)
       } else {
   let json = await yt_dl(url)
