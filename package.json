@@ -30,6 +30,7 @@
     "express-fileupload":"*",
     "xml2js":"*",
     "stream":"*",
+    "ws":"*",
     "ytdl-core":"*",
     "ejs": "github:caliphdev/ejs",
     "monk":"*",
