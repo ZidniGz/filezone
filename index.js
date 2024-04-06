@@ -13,6 +13,7 @@ const xml2js = require("xml2js");
 const { v4 } = require('uuid');
 
 const {fromBuffer} = require("file-type")
+const BingChat = require("./bing");
 const dataRouter = require("./router"); // Sesuaikan dengan path file Anda
 app.use("/api/db", dataRouter);
 
