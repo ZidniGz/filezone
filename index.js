@@ -141,13 +141,19 @@ if (req.body) {
       voter_status: i.status,
     });
 }
-
+/*
 // Save workbook to a buffer
 const buffer = await workbook.xlsx.writeBuffer();
 
 // Mengaplikasikan perubahan style dan mengembalikan buffer
 res.send(buffer);
+*/
+  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+res.setHeader('Content-Disposition', 'attachment; filename=example.xlsx');
+await workbook.xlsx.write(res);
 
+// Selesai
+res.end();
   
 
 // Add data to the table (example)
