@@ -122,13 +122,33 @@ app.post("/enhance", async (req, res) => {
   res.send(out);
 });
 app.post("/api/createExcel", async (req, res) => {
-  worksheet.columns = [
+   worksheet.columns = [
   { header: "Nama", key: "name", width: 18, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } } },
   { header: "Tanggal Lahir", key: "birth_date", width: 14, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } } },
   { header: "Umur", key: "age", width: 5, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } } },
   { header: "Jenis Kelamin", key: "gender", width: 14, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } } },
   { header: "Status Pemilih", key: "voter_status", width: 18, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } } }
 ];
+
+// Add data to the table (example)
+if (req.body) {
+  for (let i of req.body)
+    worksheet.addRow({
+      name: i.nama,
+      birth_date: i.tanggalLahir,
+      age: i.umur,
+      gender: i.gender,
+      voter_status: i.status,
+    });
+}
+
+// Save workbook to a buffer
+const buffer = await workbook.xlsx.writeBuffer();
+
+// Mengaplikasikan perubahan style dan mengembalikan buffer
+res.send(buffer);
+
+  
 
 // Add data to the table (example)
 if (req.body) {
