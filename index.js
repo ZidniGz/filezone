@@ -151,22 +151,6 @@ res.send(buffer);
   
 
 // Add data to the table (example)
-if (req.body) {
-  for (let i of req.body)
-    worksheet.addRow({
-      name: i.nama,
-      birth_date: i.tanggalLahir,
-      age: i.umur,
-      gender: i.gender,
-      voter_status: i.status,
-    });
-}
-
-// Save workbook to a buffer
-const buffer = await workbook.xlsx.writeBuffer();
-
-// Mengaplikasikan perubahan style dan mengembalikan buffer
-res.send(buffer);
 
   
 });
