@@ -123,13 +123,13 @@ app.post("/enhance", async (req, res) => {
 });
 app.post("/api/createExcel", async (req, res) => {
    worksheet.columns = [
-  { header: "Nama", key: "name", width: 18, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } } },
-  { header: "Tanggal Lahir", key: "birth_date", width: 14 },
-  { header: "Umur", key: "age", width: 5 },
-  { header: "Jenis Kelamin", key: "gender", width: 14 },
-  { header: "Status Pemilih", key: "voter_status", width: 18 }
+  { header: "Nama", key: "name", width: 18, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'thick' }, left: { style: 'thick' }, bottom: { style: 'thick' }, right: { style: 'thick' } } } },
+  { header: "Tanggal Lahir", key: "birth_date", width: 14, style: { border: { top: { style: 'thick' }, left: { style: 'thick' }, bottom: { style: 'thick' }, right: { style: 'thick' } } } },
+  { header: "Umur", key: "age", width: 5, style: { border: { top: { style: 'thick' }, left: { style: 'thick' }, bottom: { style: 'thick' }, right: { style: 'thick' } } } },
+  { header: "Jenis Kelamin", key: "gender", width: 14, style: { border: { top: { style: 'thick' }, left: { style: 'thick' }, bottom: { style: 'thick' }, right: { style: 'thick' } } } },
+  { header: "Status Pemilih", key: "voter_status", width: 18, style: { border: { top: { style: 'thick' }, left: { style: 'thick' }, bottom: { style: 'thick' }, right: { style: 'thick' } } } }
 ];
-  
+
 // Add data to the table (example)
 if (req.body) {
   for (let i of req.body)
@@ -141,22 +141,12 @@ if (req.body) {
       voter_status: i.status,
     });
 }
-/*
+
 // Save workbook to a buffer
 const buffer = await workbook.xlsx.writeBuffer();
 
 // Mengaplikasikan perubahan style dan mengembalikan buffer
 res.send(buffer);
-*/
-  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-res.setHeader('Content-Disposition', 'attachment; filename=example.xlsx');
-await workbook.xlsx.write(res);
-
-// Selesai
-res.end();
-  
-
-// Add data to the table (example)
 
   
 });
