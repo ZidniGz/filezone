@@ -123,9 +123,9 @@ app.post("/enhance", async (req, res) => {
 });
 app.post("/api/createExcel", async (req, res) => {
    worksheet.columns = [
-  { header: "Nama", key: "name", width: 18, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+  { header: "Nama", key: "name", width: 18, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
   { header: "Tanggal Lahir", key: "birth_date", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
-  { header: "Umur", key: "age", width: 5, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+  { header: "Umur", key: "age", width: 5, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
   { header: "Jenis Kelamin", key: "gender", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
   { header: "Status Pemilih", key: "voter_status", width: 18, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } }
 ];
@@ -145,7 +145,7 @@ if (req.body) {
 // Save workbook to a buffer
 const buffer = await workbook.xlsx.writeBuffer();
 
-// Apply style changes and return buffer
+// Mengaplikasikan perubahan style dan mengembalikan buffer
 res.send(buffer);
 
 
