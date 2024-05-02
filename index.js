@@ -123,11 +123,11 @@ app.post("/enhance", async (req, res) => {
 });
 app.post("/api/createExcel", async (req, res) => {
    worksheet.columns = [
-  { header: "Nama", key: "name", width: 18, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'medium' }, left: { style: 'medium' }, bottom: { style: 'medium' }, right: { style: 'medium' } } } },
-  { header: "Tanggal Lahir", key: "birth_date", width: 14, style: { border: { top: { style: 'medium' }, left: { style: 'medium' }, bottom: { style: 'medium' }, right: { style: 'medium' } } } },
-  { header: "Umur", key: "age", width: 5, style: { border: { top: { style: 'medium' }, left: { style: 'medium' }, bottom: { style: 'medium' }, right: { style: 'medium' } } } },
-  { header: "Jenis Kelamin", key: "gender", width: 14, style: { border: { top: { style: 'medium' }, left: { style: 'medium' }, bottom: { style: 'medium' }, right: { style: 'medium' } } } },
-  { header: "Status Pemilih", key: "voter_status", width: 18, style: { border: { top: { style: 'medium' }, left: { style: 'medium' }, bottom: { style: 'medium' }, right: { style: 'medium' } } } }
+  { header: "Nama", key: "name", width: 18, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+  { header: "Tanggal Lahir", key: "birth_date", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+  { header: "Umur", key: "age", width: 5, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+  { header: "Jenis Kelamin", key: "gender", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+  { header: "Status Pemilih", key: "voter_status", width: 18, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } }
 ];
 
 // Add data to the table (example)
@@ -145,8 +145,9 @@ if (req.body) {
 // Save workbook to a buffer
 const buffer = await workbook.xlsx.writeBuffer();
 
-// Mengaplikasikan perubahan style dan mengembalikan buffer
+// Apply style changes and return buffer
 res.send(buffer);
+
 
 });
 app.get("/", (req, res) => res
