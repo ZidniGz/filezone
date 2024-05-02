@@ -123,11 +123,11 @@ app.post("/enhance", async (req, res) => {
 });
 app.post("/api/createExcel", async (req, res) => {
    worksheet.columns = [
-  { header: "Nama", key: "name", width: 18, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'thick' }, left: { style: 'thick' }, bottom: { style: 'thick' }, right: { style: 'thick' } } } },
-  { header: "Tanggal Lahir", key: "birth_date", width: 14, style: { border: { top: { style: 'thick' }, left: { style: 'thick' }, bottom: { style: 'thick' }, right: { style: 'thick' } } } },
-  { header: "Umur", key: "age", width: 5, style: { border: { top: { style: 'thick' }, left: { style: 'thick' }, bottom: { style: 'thick' }, right: { style: 'thick' } } } },
-  { header: "Jenis Kelamin", key: "gender", width: 14, style: { border: { top: { style: 'thick' }, left: { style: 'thick' }, bottom: { style: 'thick' }, right: { style: 'thick' } } } },
-  { header: "Status Pemilih", key: "voter_status", width: 18, style: { border: { top: { style: 'thick' }, left: { style: 'thick' }, bottom: { style: 'thick' }, right: { style: 'thick' } } } }
+  { header: "Nama", key: "name", width: 18, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'medium' }, left: { style: 'medium' }, bottom: { style: 'medium' }, right: { style: 'medium' } } } },
+  { header: "Tanggal Lahir", key: "birth_date", width: 14, style: { border: { top: { style: 'medium' }, left: { style: 'medium' }, bottom: { style: 'medium' }, right: { style: 'medium' } } } },
+  { header: "Umur", key: "age", width: 5, style: { border: { top: { style: 'medium' }, left: { style: 'medium' }, bottom: { style: 'medium' }, right: { style: 'medium' } } } },
+  { header: "Jenis Kelamin", key: "gender", width: 14, style: { border: { top: { style: 'medium' }, left: { style: 'medium' }, bottom: { style: 'medium' }, right: { style: 'medium' } } } },
+  { header: "Status Pemilih", key: "voter_status", width: 18, style: { border: { top: { style: 'medium' }, left: { style: 'medium' }, bottom: { style: 'medium' }, right: { style: 'medium' } } } }
 ];
 
 // Add data to the table (example)
@@ -148,7 +148,6 @@ const buffer = await workbook.xlsx.writeBuffer();
 // Mengaplikasikan perubahan style dan mengembalikan buffer
 res.send(buffer);
 
-  
 });
 app.get("/", (req, res) => res
   .status(200)
