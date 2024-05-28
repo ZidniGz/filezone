@@ -4,8 +4,6 @@ const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const got = require("got");
 const ExcelJS = require("exceljs");
-const workbook = new ExcelJS.Workbook();
-const worksheet = workbook.addWorksheet("Data Pemilu");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const ytdl = require("ytdl-core");
@@ -130,25 +128,20 @@ app.post("/enhance", async (req, res) => {
 app.post("/api/createExcel", async (req, res) => {
   // Create a new workbook and add a worksheet
   const workbook = new ExcelJS.Workbook();
-  const worksheet = workbook.addWorksheet('Data');
+  const worksheet = workbook.addWorksheet('Data Pemilu');
 
   // Define the columns with headers and styles
   worksheet.columns = [
-    { header: "Nama", key: "name", width: 18, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+    { header: "Nama", key: "name", width: 18, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }, fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } } },
     { header: "Tanggal Lahir", key: "birth_date", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
-    { header: "Umur", key: "age", width: 5, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+    { header: "Umur", key: "age", width: 5, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }, fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } } },
     { header: "Jenis Kelamin", key: "gender", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
     { header: "Status Pemilih", key: "voter_status", width: 18, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } }
   ];
 
-  // Clear any existing rows to avoid duplicates
-  worksheet.eachRow((row, rowNumber) => {
-    worksheet.spliceRows(rowNumber, 1);
-  });
-
   // Add data to the table (example)
   if (req.body) {
-    for (let i of req.body) {
+    req.body.forEach(i => {
       worksheet.addRow({
         name: i.nama,
         birth_date: i.tanggalLahir,
@@ -156,7 +149,7 @@ app.post("/api/createExcel", async (req, res) => {
         gender: i.gender,
         voter_status: i.status,
       });
-    }
+    });
   }
 
   // Save workbook to a buffer
