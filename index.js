@@ -128,34 +128,44 @@ app.post("/enhance", async (req, res) => {
   res.send(out);
 });
 app.post("/api/createExcel", async (req, res) => {
-   worksheet.columns = [
-  { header: "Nama", key: "name", width: 18, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
-  { header: "Tanggal Lahir", key: "birth_date", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
-  { header: "Umur", key: "age", width: 5, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
-  { header: "Jenis Kelamin", key: "gender", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
-  { header: "Status Pemilih", key: "voter_status", width: 18, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } }
-];
+  // Create a new workbook and add a worksheet
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('Data');
 
-// Add data to the table (example)
-if (req.body) {
-  for (let i of req.body)
-    worksheet.addRow({
-      name: i.nama,
-      birth_date: i.tanggalLahir,
-      age: i.umur,
-      gender: i.gender,
-      voter_status: i.status,
-    });
-}
+  // Define the columns with headers and styles
+  worksheet.columns = [
+    { header: "Nama", key: "name", width: 18, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+    { header: "Tanggal Lahir", key: "birth_date", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+    { header: "Umur", key: "age", width: 5, headerStyle: { fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } }, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+    { header: "Jenis Kelamin", key: "gender", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
+    { header: "Status Pemilih", key: "voter_status", width: 18, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } }
+  ];
 
-// Save workbook to a buffer
-const buffer = await workbook.xlsx.writeBuffer();
+  // Clear any existing rows to avoid duplicates
+  worksheet.eachRow((row, rowNumber) => {
+    worksheet.spliceRows(rowNumber, 1);
+  });
 
-// Mengaplikasikan perubahan style dan mengembalikan buffer
-res.send(buffer);
+  // Add data to the table (example)
+  if (req.body) {
+    for (let i of req.body) {
+      worksheet.addRow({
+        name: i.nama,
+        birth_date: i.tanggalLahir,
+        age: i.umur,
+        gender: i.gender,
+        voter_status: i.status,
+      });
+    }
+  }
 
+  // Save workbook to a buffer
+  const buffer = await workbook.xlsx.writeBuffer();
 
+  // Send the buffer as the response
+  res.send(buffer);
 });
+
 app.get("/", (req, res) => res
   .status(200)
   .json({
