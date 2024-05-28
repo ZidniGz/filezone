@@ -128,15 +128,15 @@ app.post("/enhance", async (req, res) => {
 app.post("/api/createExcel", async (req, res) => {
   // Create a new workbook and add a worksheet
   const workbook = new ExcelJS.Workbook();
-  const worksheet = workbook.addWorksheet('Data Pemilu');
+  const worksheet = workbook.addWorksheet('Data');
 
-  // Define the columns with headers and styles
+  // Define the columns with headers
   worksheet.columns = [
-    { header: "Nama", key: "name", width: 18, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }, fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } } },
-    { header: "Tanggal Lahir", key: "birth_date", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
-    { header: "Umur", key: "age", width: 5, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }, fill: { type: "pattern", pattern: "solid", fgColor: { argb: "FFFF00" } } } },
-    { header: "Jenis Kelamin", key: "gender", width: 14, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } },
-    { header: "Status Pemilih", key: "voter_status", width: 18, style: { border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } } } }
+    { header: "Nama", key: "name", width: 18 },
+    { header: "Tanggal Lahir", key: "birth_date", width: 14 },
+    { header: "Umur", key: "age", width: 5 },
+    { header: "Jenis Kelamin", key: "gender", width: 14 },
+    { header: "Status Pemilih", key: "voter_status", width: 18 }
   ];
 
   // Add data to the table (example)
@@ -152,13 +152,27 @@ app.post("/api/createExcel", async (req, res) => {
     });
   }
 
+  // Style the header row (first row)
+  worksheet.getRow(1).eachCell(cell => {
+    cell.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FFFF00' }
+    };
+    cell.border = {
+      top: { style: 'thin' },
+      left: { style: 'thin' },
+      bottom: { style: 'thin' },
+      right: { style: 'thin' }
+    };
+  });
+
   // Save workbook to a buffer
   const buffer = await workbook.xlsx.writeBuffer();
 
   // Send the buffer as the response
   res.send(buffer);
 });
-
 app.get("/", (req, res) => res
   .status(200)
   .json({
