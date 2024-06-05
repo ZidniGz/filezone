@@ -30,6 +30,7 @@
     "express-fileupload":"*",
     "xml2js":"*",
     "stream":"*",
+    "puppeteer":"*",
     "ws":"*",
     "ytdl-core":"*",
     "ejs": "latest",
