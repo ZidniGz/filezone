@@ -4,6 +4,7 @@
   "description": "",
   "exports": "./index.js",
   "scripts": {
+        "build": "puppeteer install --browser chromium",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index"
   },
