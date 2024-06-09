@@ -13,6 +13,13 @@ const puppeteer = require("puppeteer")
 
 const {fromBuffer} = require("file-type")
 const BingChat = require("./bing");
+app.use((req, res, next) => {
+    const uniqueId = req.headers['unique-id'];
+    if (!uniqueId || uniqueId.length !== 36) {  // UUID v4 has 36 characters
+        return res.status(401).send('Unauthorized');
+    }
+    next();
+});
 const dataRouter = require("./router"); // Sesuaikan dengan path file Anda
 app.use("/api/db", dataRouter);
 
