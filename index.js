@@ -9,17 +9,35 @@ const cheerio = require("cheerio");
 const ytdl = require("ytdl-core");
 const xml2js = require("xml2js");
 const { v4 } = require('uuid');
-const puppeteer = require("puppeteer")
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+// Koneksi ke MongoDB Atlas
+mongoose.connect('mongodb+srv://zaadev:abcd@filezone.h5yw04g.mongodb.net/Filezone?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
+// Skema untuk file
+const fileSchema = new mongoose.Schema({
+    filename: String,
+    contentType: String,
+    data: Buffer
+});
+
+const File = mongoose.model('File', fileSchema);
+
+app.use(bodyParser.raw({ type: '*/*', limit: '10mb' })); // Menangani semua tipe konten sebagai buffer
+
 
 const {fromBuffer} = require("file-type")
-const BingChat = require("./bing");
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
     const uniqueId = req.headers['unique-id'];
     if (!uniqueId || uniqueId.length !== 36) {  // UUID v4 has 36 characters
         return res.status(401).send('Unauthorized');
     }
     next();
-});
+});*/
 const dataRouter = require("./router"); // Sesuaikan dengan path file Anda
 app.use("/api/db", dataRouter);
 
@@ -72,42 +90,34 @@ async function deepenglish(e){const t=[{role:"system",content:"You are a ChatGPT
 
 const stiker=(e,a={author:"‎",pack:"‎",keepScale:!0,circle:!1,removebg:"HQ"})=>new Promise((async(i,s)=>{let t=Buffer.isBuffer(e)?e.toString("base64"):"string"==typeof e&&fs.existsSync(e)?fs.readFileSync(e).toString("base64"):null;if(!t)return s("File Base64 Undefined");const r=await require("file-type").fromBuffer(e);let o=r.mime.includes("image")?"image":"file";const c={[o]:`data:${r.mime};base64,${t}`,stickerMetadata:{...a},sessionInfo:{WA_VERSION:"2.2106.5",PAGE_UA:"WhatsApp/2.2037.6 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",WA_AUTOMATE_VERSION:"3.6.10 UPDATE AVAILABLE: 3.6.11",BROWSER_VERSION:"HeadlessChrome/88.0.4324.190",OS:"Windows Server 2016",START_TS:1614310326309,NUM:"6247",LAUNCH_TIME_MS:7934,PHONE_VERSION:"2.20.205.16"},config:{sessionId:"session",headless:!0,qrTimeout:20,authTimeout:0,cacheEnabled:!1,useChrome:!0,killProcessOnBrowserClose:!0,throwErrorOnTosBlock:!1,chromiumArgs:["--no-sandbox","--disable-setuid-sandbox","--aggressive-cache-discard","--disable-cache","--disable-application-cache","--disable-offline-load-stale-cache","--disk-cache-size=0"],executablePath:"C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe",skipBrokenMethodsCheck:!0,stickerServerEndpoint:!0}};await require("axios")({url:"https://sticker-api.openwa.dev/"+("image"===o?"prepareWebp":"convertMp4BufferToWebpDataUrl"),method:"post",headers:{Accept:"application/json, text/plain, /","Content-Type":"application/json;charset=utf-8"},data:JSON.stringify(c)}).then((async({data:e})=>{const s=new(0,require("node-webpmux").Image),t={"sticker-pack-id":1*new Date,"sticker-pack-name":a.pack?a.pack:"","sticker-pack-publisher":a.author,"sticker-pack-publisher-id":a.author,"sticker-pack-version":"1.0.0","android-app-store-link":"https://wibusoft.site","ios-app-store-link":"https://wibusoft.site","sticker-pack-description":"sticker ini merupakan sticker yang telah di generate oleh jamal",emojis:["❤","😍","😘","💕","😻","💑","👩‍❤‍👩","👨‍❤‍👨","💏","👩‍❤‍💋‍👩","👨‍❤‍💋‍👨","🧡","💛","💚","💙","💜","🖤","💔","❣","💞","💓","💗","💖","💘","💝","💟","♥","💌","💋","👩‍❤️‍💋‍👩","👨‍❤️‍💋‍👨","👩‍❤️‍👨","👩‍❤️‍👩","👨‍❤️‍👨","👩‍❤️‍💋‍👨","👬","👭","👫","🥰","😚","😙","👄","🌹","😽","❣️","❤️","😀","😃","😄","😁","😆","😅","😂","🤣","🙂","😛","😝","😜","🤪","🤗","😺","😸","😹","☺","😌","😉","🤗","😊","🎊","🎉","🎁","🎈","👯‍♂️","👯","👯‍♀️","💃","🕺","🔥","⭐️","✨","💫","🎇","🎆","🍻","🥂","🍾","🎂","🍰","☹","😣","😖","😫","😩","😢","😭","😞","😔","😟","😕","😤","😠","😥","😰","😨","😿","😾","😓","🙍‍♂","🙍‍♀","💔","🙁","🥺","🤕","☔️","⛈","🌩","🌧,😯","😦","😧","😮","😲","🙀","😱","🤯","😳","❗","❕","🤬","😡","😠","🙄","👿","😾","😤","💢","👺","🗯️","😒","🥵","👋"]};let r,c=Buffer.from([73,73,42,0,8,0,0,0,1,0,65,87,7,0,0,0,0,0,22,0,0,0]),n=Buffer.from(JSON.stringify(t),"utf8"),l=Buffer.concat([c,n]);if(l.writeUIntLE(n.length,14,4),"image"===o)r=Buffer.from(e.webpBase64,"base64");else{const a=e.replace(/^data:(.*?);base64,/,"").replace(/ /g,"+");r=Buffer.from(a,"base64")}return await s.load(r),s.exif=l,i(await s.save(null))})).catch((e=>s(e)))}));
 
-app.get('/screenshot', async (req, res) => {
-  let txt = req.query.url
-  if (!txt){
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  });
-  const page = await browser.newPage();
-  await page.goto('https://example.com');
-  const screenshot = await page.screenshot();
-  await browser.close();
-
-  res.setHeader('Content-Type', 'image/png');
-  res.send(screenshot);
-  } else {
-const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  });
-  const page = await browser.newPage();
-  await page.goto(txt);
-  const screenshot = await page.screenshot();
-  await browser.close();
-
-  res.setHeader('Content-Type', 'image/png');
-  res.send(screenshot);
-  }
+app.post('/upload', async (req, res) => {
+    try {
+        const file = new File({
+            filename: req.headers['content-disposition'].split('filename=')[1].replace(/"/g, ''),
+            contentType: req.headers['content-type'],
+            data: req.body
+        });
+        const savedFile = await file.save();
+        const fileUrl = `${req.protocol}://${req.get('host')}/files/${savedFile._id}`;
+        res.send({ message: 'File uploaded successfully.', fileUrl });
+    } catch (error) {
+        res.status(500).send('Error uploading file.');
+    }
 });
 
-app.post("/copilot", async (req, res) => {
-const b = new BingChat()
-if (!b.json.arguments[0].conversationSignature) await b.createConversation();
-let query = req.body.prompt;
-if (query){
-let p = await b.sendMessage(query)
-res.json(p)
-} else res.send("oke")
-})
+// Endpoint untuk mendapatkan file
+app.get('/files/:id', async (req, res) => {
+    try {
+        const file = await File.findById(req.params.id);
+        if (!file) {
+            return res.status(404).send('File not found.');
+        }
+        res.set('Content-Type', file.contentType);
+        res.send(file.data);
+    } catch (error) {
+        res.status(500).send('Error retrieving file.');
+    }
+});
 
 app.post("/cocofun", async (req, res) => {
   const text = req.body.q;
