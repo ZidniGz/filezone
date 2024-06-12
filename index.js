@@ -10,8 +10,6 @@ const ytdl = require("ytdl-core");
 const xml2js = require("xml2js");
 const { v4 } = require('uuid');
 const mongoose = require('mongoose');
-
-
 // Koneksi ke MongoDB Atlas
 mongoose.connect('mongodb+srv://zaadev:abcd@filezone.h5yw04g.mongodb.net/Filezone?retryWrites=true&w=majority', {
     useNewUrlParser: true,
