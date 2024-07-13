@@ -29,6 +29,7 @@
     "dotenv": "^16.0.1",
     "exceljs":"*",
     "express-fileupload":"*",
+    "multer":"*",
     "xml2js":"*",
     "stream":"*",
     "puppeteer":"*",
