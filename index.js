@@ -18,7 +18,7 @@ const mongoose = require('mongoose');
 });*/
 
 // Skema untuk file
-app.use(bodyParser.raw({ type: '*/*', limit: '10mb' })); // Menangani semua tipe konten sebagai buffer
+//app.use(bodyParser.raw({ type: '*/*', limit: '10mb' })); // Menangani semua tipe konten sebagai buffer
 
 
 const {fromBuffer} = require("file-type")
