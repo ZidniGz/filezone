@@ -12,20 +12,12 @@ const xml2js = require("xml2js");
 const { v4 } = require('uuid');
 const mongoose = require('mongoose');
 // Koneksi ke MongoDB Atlas
-mongoose.connect('mongodb+srv://zaadev:abcd@filezone.h5yw04g.mongodb.net/Filezone?retryWrites=true&w=majority', {
+/*mongoose.connect('mongodb+srv://zaadev:abcd@filezone.h5yw04g.mongodb.net/Filezone?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
+});*/
 
 // Skema untuk file
-const fileSchema = new mongoose.Schema({
-    filename: String,
-    contentType: String,
-    data: Buffer
-});
-
-const File = mongoose.model('File', fileSchema);
-
 app.use(bodyParser.raw({ type: '*/*', limit: '10mb' })); // Menangani semua tipe konten sebagai buffer
 
 
@@ -93,7 +85,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Endpoint to handle file upload
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/app/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
@@ -111,18 +103,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
   });
 });
 // Endpoint untuk mendapatkan file
-app.get('/files/:id', async (req, res) => {
-    try {
-        const file = await File.findById(req.params.id);
-        if (!file) {
-            return res.status(404).send('File not found.');
-        }
-        res.set('Content-Type', file.contentType);
-        res.send(file.data);
-    } catch (error) {
-        res.status(500).send('Error retrieving file.');
-    }
-});
+
 
 app.post("/cocofun", async (req, res) => {
   const text = req.body.q;
