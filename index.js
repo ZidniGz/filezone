@@ -85,22 +85,35 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Endpoint to handle file upload
-app.post('/app/upload', upload.single('file'), (req, res) => {
-  if (!req.file) {
+app.post('/upload', async (req, res) => {
+  if (!req.files) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
 
-  const buffer = req.file.buffer;
-  const originalName = req.file.originalname;
+  const buffer = req.files.file.data;
+  const { ext, mime } = await fromBuffer(buffer);
+  const formData = new require("form-data")();
 
-  // Here you can process the buffer and original name as needed
-  console.log('Received file:', originalName);
-
-  // Send response back with file info (for demonstration purposes)
-  res.json({
-    message: 'File uploaded successfully',
-    filename: originalName,
+  formData.append('file', buffer, {
+    filename: `file.${ext}`,
+    contentType: mime,
   });
+
+  try {
+    const response = await got.post('https://telegra.ph/upload', {
+      body: formData,
+      responseType: 'json',
+    })
+
+    const result = response.body[0];
+    res.json({
+      message: 'File uploaded successfully',
+      url: result.src,
+    });
+  } catch (error) {
+    console.error('Upload error:', error.response.body);
+    res.status(500).json({ error: 'Upload failed' });
+  }
 });
 // Endpoint untuk mendapatkan file
 
