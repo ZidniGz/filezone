@@ -85,12 +85,12 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Endpoint to handle file upload
-app.post('/upload', async (req, res) => {
-  if (!req.files) {
+app.post('/upload', upload.single('file'), async (req, res) => {
+  if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
 
-  const buffer = req.files.file.data;
+  const buffer = req.file.buffer;
   const { ext, mime } = await fromBuffer(buffer);
   const formData = new require("form-data")();
 
@@ -103,7 +103,7 @@ app.post('/upload', async (req, res) => {
     const response = await got.post('https://telegra.ph/upload', {
       body: formData,
       responseType: 'json',
-    })
+    });
 
     const result = response.body[0];
     res.json({
